@@ -16,12 +16,10 @@ const options = {
 
 console.log (requestURL);
 
-//  function downloadImageByURL(url, filePath) {
+function downloadImageByURL(url, filePath) {
 
-//   request.get(url)
-//        .pipe(fs.createWriteStream(filePath));
-
-//  }
+   request.get(url).pipe(fs.createWriteStream(filePath));
+}
 
 request(options, function( err, response, body) {
     var contList = JSON.parse(body);
@@ -29,24 +27,8 @@ request(options, function( err, response, body) {
     console.log(contList);
     contList.forEach(function(element) {
        console.log('each', element.avatar_url, element.login);
-    // downloadImageByURL( element.avatar_url,
-//                        'avatar/' + element.login + '.jpg')
+       downloadImageByURL( element.avatar_url,
+                          'avatar/' + element.login + '.jpg')
+       console.log ("downloads done !!!");
     })
 });
-
-
-
-
-//  request(options,
-//     function(err, response, body){
-//         var contList = JSON.parse(body);
-//         console.log(contList);
-//         contList.forEach(function(element) {
-//             console.log('each',element.avatar_url,
-//                 element.login);
-//             downloadImageByURL(
-//                 element.avatar_url,
-//                 'avatar/' + element.login + '.jpg'
-//             )
-//             })
-//     });
