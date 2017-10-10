@@ -1,26 +1,28 @@
 var request = require('request');
-//console.log('Welcome to the GitHub Avatar Downloader!')
-function getRepoContributors(repoOwner, repoName, cb) {
 
-  var GITHUB_USER = "mvrdias";
-  var GITHUB_TOKEN = "2126ba4fed94b96b37ea97b7e4b1ac177f4319cc";
+var GITHUB_USER = "mvrdias";
+var GITHUB_TOKEN = "a74fa7a0900348d02b5d7e1c1762515ff30c0f78";
 
-  var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
+var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + 'jquery' + '/' + 'jquery' + '/contributors';
 
-  const options = {
-    url: requestURL,
-    headers: {
-      "User-Agent": GITHUB_USER
-    }
+const options = {
+  url:
+    requestURL,
+  headers: {
+    "User-Agent": GITHUB_USER
   }
-
-  request(options, cb);
-
 }
 
-getRepoContributors("jquery", "jquery", function(err, result) {
-   console.log("Errors:", err);
-   console.log("Result:", result.toJSON());
+console.log (requestURL);
+
+request(options, function( err, response, body) {
+    var contList = JSON.parse(body);
+    console.log(body);
+    console.log(contList);
+    contList.forEach(function(element) {
+       console.log('each', element.avatar_url, element.login);
+    })
 });
+
 
 
