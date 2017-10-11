@@ -1,10 +1,19 @@
+// Project 01 - GitHub Avatar Downloader
+// Oct, 9 2017
+
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
+
+// Var , Const and Personal Informations
 var request = require('request');
 var fs = require('fs');
 
 var GITHUB_USER = "mvrdias";
 var GITHUB_TOKEN = "a74fa7a0900348d02b5d7e1c1762515ff30c0f78";
 
-var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + 'jquery' + '/' + 'jquery' + '/contributors';
+var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN +
+                 '@api.github.com/repos/' + repoOwner + '/' +
+                 repoName + '/contributors';
 
 const options = {
   url:
@@ -14,21 +23,25 @@ const options = {
   }
 };
 
+
+// Check .. if it is working well
 console.log (requestURL);
 
+// Download Images
 function downloadImageByURL(url, filePath) {
 
    request.get(url).pipe(fs.createWriteStream(filePath));
 }
 
-request(options, function( err, response, body) {
+// Request Infomations
+request(options, function( err, resp, body) {
     var contList = JSON.parse(body);
-    console.log(body);
-    console.log(contList);
-    contList.forEach(function(element) {
-       console.log('each', element.avatar_url, element.login);
-       downloadImageByURL( element.avatar_url,
-                          'avatar/' + element.login + '.jpg')
-       console.log ("downloads done !!!");
+    //console.log(body);
+    //console.log(contList);
+
+    contList.forEach(function(elem) {
+       console.log('each', elem.avatar_url, elem.login);
+       downloadImageByURL( elem.avatar_url,
+                          'avatar/' + elem.login + '.jpg')
     })
 });
